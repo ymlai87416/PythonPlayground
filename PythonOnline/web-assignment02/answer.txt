@@ -1,0 +1,12 @@
+python socket1.py
+b'HTTP/1.1 200 OK\r\n
+Content-Type: text/plain\r\n
+Content-Length: 467\r\n
+Connection: close\r\n
+Date: Wed, 14 Dec 2016 23:32:57 GMT\r\n
+Server: Apache\r\n
+Last-Modified: Sat, 24 Sep 2016 20:36:08 GMT\r\n
+ETag: "1d3-53d46d841582a"\r\nAccept-Ranges: bytes\r\n
+\r\n
+Why should you learn to write programs?\n\nWriting programs (or programming) is a very creative \nand rewarding activity.  You can write programs for \nmany reasons, ranging from making your living to solving\na difficult data analysis problem to having fun to helping\nsomeone else so'
+b'lve a problem.  This book assumes that \neveryone needs to know how to program, and that once \nyou know how to program you will figure out what you want \nto do with your newfound skills.  \n'

@@ -1,0 +1,77 @@
+---
+title: "Weather and its effect on human population health and economic consequences"
+author: "Tom"
+date: "Thursday, June 04, 2015"
+output: html_document
+---
+
+#Synopsis
+Storms and other severe weather events can cause both public health and economic problems for communities and municipalities. Many severe events can result in fatalities, injuries, and property damage, and preventing such outcomes to the extent possible is a key concern.
+
+This project involves exploring the U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database. This database tracks characteristics of major storms and weather events in the United States, including when and where they occur, as well as estimates of any fatalities, injuries, and property damage.
+
+In this study, we have found the following facts:
+
+Tornado are most harmful with respect to population health across the United States, over 1 billion is either dead or injuried. Followed by flash flood (around 1 billion population) and thunderstorm winds (around 800 millions of population).
+
+Tornado have the greatest economic consequences across the United States, causing over USD 41.8 billion of damage, followed by hurricane/ typoon (around USD 19.4 billion), and flood (around USD 12.5 billion)
+
+In the following section, we presents the way to process the data and detail of our findings.
+
+#Data Processing
+For analysis, we are going to explore the U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database 
+
+There is also some documentation of the database available. Here you will find how some of the variables are constructed/defined.
+
+National Weather Service Storm Data Documentation
+https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2Fpd01016005curr.pdf
+
+National Climatic Data Center Storm Events FAQ
+https://d396qusza40orc.cloudfront.net/repdata%2Fpeer2_doc%2FNCDC%20Storm%20Events-FAQ%20Page.pdf
+
+The events in the database start in the year 1950 and end in November 2011.
+```{r, cache=TRUE, message=F, warning=F}
+data <- read.csv(bzfile("repdata-data-StormData.csv.bz2"))
+```
+
+#Results
+##Death and injuries
+Below we going to do some statistic to find out the causalty and injuries during different weather conditions. Only top five weather condition causing highest kill and injuries are shown.
+```{r message=F, warning=F}
+library(reshape2)
+library(ggplot2)
+data2 <- aggregate(cbind(data$FATALITIES,data$INJURIES) ~ data$EVTYPE, FUN=sum)
+names(data2) <- c("EVTYPE", "FATALITIES", "INJURIES")
+data2$FATALITIES <- as.numeric(data2$FATALITIES)
+data2$INJURIES <- as.numeric(data2$INJURIES)
+data3 <- (data2[order(data2$FATALITIES+data2$INJURIES, decreasing=TRUE),])[1:5,]
+data3m <- melt(data3)
+```
+```{r}
+g <- ggplot(data3m, aes(x=factor(EVTYPE), y=value, fill=variable)) + geom_bar(stat="identity") + ggtitle("Top 10 weather events which kill/injury people")
+g
+```
+
+##Economic consequences for bad weather condition
+Below we going to do some statistic to find out the property damage and crop damage (in US dollar) during different weather conditions. Only top five weather condition causing highest economic impacted are shown.
+```{r message=F, warning=F}
+data2 <- data[, c(8, 25,26,27,28)]
+data2$PROPDMG <- as.numeric(as.character(data2$PROPDMG))
+data2$CROPDMG <- as.numeric(as.character(data2$CROPDMG))
+data2[data2$PROPDMGEXP=='K',]$PROPDMG <- data2[data2$PROPDMGEXP=='K',]$PROPDMG*1000
+data2[data2$PROPDMGEXP=='M',]$PROPDMG <- data2[data2$PROPDMGEXP=='M',]$PROPDMG*1000000
+data2[data2$PROPDMGEXP=='B',]$PROPDMG <- data2[data2$PROPDMGEXP=='B',]$PROPDMG*1000000000
+data2[data2$CROPDMGEXP=='K',]$CROPDMG <- data2[data2$CROPDMGEXP=='K',]$CROPDMG*1000
+data2[data2$CROPDMGEXP=='M',]$CROPDMG <- data2[data2$CROPDMGEXP=='M',]$CROPDMG*1000000
+data2[data2$CROPDMGEXP=='B',]$CROPDMG <- data2[data2$CROPDMGEXP=='B',]$CROPDMG*1000000000
+data2 <- aggregate(cbind(data2$PROPDMG,data$CROPDMG) ~ data$EVTYPE, FUN=sum)
+names(data2) <- c("EVTYPE", "PROPDMG", "CROPDMG")
+data3 <- (data2[order(data2$PROPDMG+data2$CROPDMG, decreasing=TRUE),])[1:5,]
+data3m <- melt(data3)
+```
+```{r}
+g <- ggplot(data3m, aes(x=factor(EVTYPE), y=value, fill=variable)) + geom_bar(stat="identity") + ggtitle("Top 10 weather events which cause property and crop damage")
+g
+```
+
+
