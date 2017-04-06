@@ -56,6 +56,20 @@ simple_returns = diff(all_prices)/lag(all_prices, k=-1);
 chart.CumReturns(simple_returns ,wealth.index=TRUE, main="Growth of $1")
 
 # Create matrix with returns
+return_matrix <- coredata(all_returns)
+
+# Generate four panel plots
+par(mfrow = c(2, 2))
+hist(return_matrix[, "VBLTX"], main = "VBLTX monthly returns",
+     xlab = "VBLTX", probability = T, col = "slateblue1")
+boxplot(return_matrix[, "VBLTX"], outchar = T, main = "Boxplot", col = "slateblue1")
+plot(density(return_matrix[, "VBLTX"]), type = "l", main = "Smoothed density",
+     xlab = "monthly return", ylab = "density estimate", col = "slateblue1")
+qqnorm(return_matrix[, "VBLTX"], col = "slateblue1")
+qqline(return_matrix[, "VBLTX"])
+par(mfrow = c(1, 1))
+
+# Create matrix with returns
 return_matrix = coredata(all_returns);
 
 # Show boxplot of three series on one plot
