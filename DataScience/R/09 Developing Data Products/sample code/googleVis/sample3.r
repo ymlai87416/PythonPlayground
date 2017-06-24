@@ -1,2 +1,0 @@
-G2 <- gvisGeoChart(Exports, locationvar = "Country", colorvar = "Profit", options = list(width = 400,                                                                                           height = 400, region = "150"))
-print(G2, "chart")

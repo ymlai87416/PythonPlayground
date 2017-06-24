@@ -1,5 +1,0 @@
-r1 <- rPlot(mpg ~wt | am+ws, data=mtcars, type="point", color="gear")
-r1$print("chart1")
-r1$save('myPlot.html')
-r1$publish('myPlot', host='gist')
-r1$publish('myPlot', host='rpubs')

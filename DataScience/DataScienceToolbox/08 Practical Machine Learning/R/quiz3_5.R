@@ -1,0 +1,5 @@
+library(ElemStatLearn)
+data(vowel.train)
+data(vowel.test)
+modFit <- train(y~., data=vowel.train, method="rf", prox=TRUE, importance=TRUE)
+varImp(modFit$finalModel)
