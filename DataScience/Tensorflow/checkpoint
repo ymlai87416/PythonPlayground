@@ -1,0 +1,6 @@
+model_checkpoint_path: "reverse.ckpt-14001"
+all_model_checkpoint_paths: "reverse.ckpt-6001"
+all_model_checkpoint_paths: "reverse.ckpt-8001"
+all_model_checkpoint_paths: "reverse.ckpt-10001"
+all_model_checkpoint_paths: "reverse.ckpt-12001"
+all_model_checkpoint_paths: "reverse.ckpt-14001"
